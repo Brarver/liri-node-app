@@ -18,4 +18,21 @@ liri
 
 * spotify-this-song black dog
 ![screenshot](./images/blackdog.png)
-Format: ![Alt Text](url)
+
+* spotify-this-song [empty/default]
+![screenshot](./images/songempty.png)
+
+* concert-this The Rolling Stones
+![screenshot](./images/rollingstones.png)
+
+* movie-this Star Wars
+![screenshot](./images/starwars.png)
+
+* movie-this [empty/default]
+![screenshot](./images/movieempty.png)
+
+* do-what-it-says 
+![screenshot](./images/dowhatitsays.png)
+
+* final log `log.txt`
+![screenshot](./images/log.png)
