@@ -3,13 +3,16 @@ var moment = require('moment')
 var axios = require('axios')
 var keys = require("./keys.js")
 var Spotify = require('node-spotify-api')
+var fs = require("fs")
+var os = require("os")
 
 var argOne = process.argv[2]
 var argTwo = process.argv.splice(3, process.argv.length - 1)
 argTwo = argTwo.join(' ')
-// console.log(argOne)
-// console.log(argTwo)
 
+main()
+
+function main() {
 
 /*****************************Spotify*************************************/
 
@@ -51,7 +54,16 @@ if (argOne === 'spotify-this-song' ) {
         console.log(`Song Name: ${song}`)
         console.log(`Album: ${album}`)
         console.log(`Preview: ${preview}`)
+        var array = []
+        array.push('Artist: ' + artist, 'Song: ' + song, 'Album: ' + album, 'Preview Clip: ' + preview)
+        fs.appendFile('log.txt', array + os.EOL, function(err) {
+            if (err) {
+                console.log(err)
+            }
+        })
+
       })
+      
 }
 
 /**************************************Bands In Town****************************/
@@ -73,6 +85,13 @@ if (argOne === 'concert-this') {
         console.log(`Location: ${city}, ${country}`)
         console.log(`Date: ${dateTime}`)
         console.log(`-------------------------------------`)
+        var array = []
+        array.push('Venue: ' + name, 'City: ' + city, 'Country: ' + country, 'Date: ' + dateTime)
+        fs.appendFile('log.txt', array + os.EOL, function(err) {
+            if (err) {
+                console.log(err)
+            }
+        })
     }
   })
   .catch(function(error) {
@@ -111,6 +130,14 @@ if (argOne === 'movie-this') {
     console.log(`Language: ${movie.Language}`)
     console.log(`Plot: ${movie.Plot}`)
     console.log(`Actors: ${movie.Actors}`)
+
+    var array = []
+    array.push('Title: ' + movie.Title, 'Release Year: ' + movie.Year, 'IMDB Rating: ' + movie.imdbRating, 'Rotten Tomatoes: ' + rottenTomatoes.value, 'Origin: ' + movie.Country, 'Lanuage: ' + movie.Language, 'Plot: ' + movie.Plot, 'Actors: ' + movie.Actors)
+    fs.appendFile('log.txt', array + os.EOL, function(err) {
+        if (err) {
+            console.log(err)
+        }
+    })
   })
   .catch(function(error) {
     if (error.response) {
@@ -125,6 +152,23 @@ if (argOne === 'movie-this') {
     }
     console.log(error.config)
   })
+}
+}
+/************************************Do What It Says**********************************/
+
+if (argOne === 'do-what-it-says') {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+        if (error) {
+          return console.log(error)
+        }
+      
+        var dataArr = data.split(",")
+        argOne = dataArr[0]
+        argTwo = dataArr[1]
+        main()
+      
+      })
 }
 
 
