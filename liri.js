@@ -10,6 +10,9 @@ argTwo = argTwo.join(' ')
 // console.log(argOne)
 // console.log(argTwo)
 
+
+/*****************************Spotify*************************************/
+
 var spotify = new Spotify(keys.spotify)
 
 if (argOne === 'spotify-this-song' ) {
@@ -28,7 +31,7 @@ if (argOne === 'spotify-this-song' ) {
 
         if (argTwo === 'The Sign') {
             
-            var AOB = data.tracks.items.find(function (item) {
+            var AOB = data.tracks.items.find(item => {
                     return item.album.artists[0].name === 'Ace of Base'
             })
 
@@ -51,12 +54,15 @@ if (argOne === 'spotify-this-song' ) {
       })
 }
 
+/**************************************Bands In Town****************************/
+
 if (argOne === 'concert-this') {
     axios
   .get("https://rest.bandsintown.com/artists/" + argTwo + "/events?app_id=codingbootcamp")
   .then(function(response) {
 
     for (var i = 0; i < response.data.length; i++) {
+
         var name = response.data[i].venue.name
         var city = response.data[i].venue.city
         var country = response.data[i].venue.country
@@ -83,30 +89,44 @@ if (argOne === 'concert-this') {
   })
 }
 
+/*******************************************IMDB**********************************************/
 
+if (argOne === 'movie-this') {
 
-axios
-  .get("http://www.omdbapi.com/?&t=" + argOne + "&apikey=trilogy")
+    if (argTwo === '' || argTwo === null) {
+        argTwo = 'Mr. Nobody'
+    }
+    axios
+  .get("http://www.omdbapi.com/?&t=" + argTwo + "&apikey=trilogy")
   .then(function(response) {
     var movie = response.data
-    console.log(movie)
+    var rottenTomatoes = movie.Ratings.find(item => {
+        return item.Source === 'Rotten Tomatoes'
+    })
     console.log(`Title: ${movie.Title}`)
     console.log(`Release Year: ${movie.Year}`)
-    // console.log(`IMDB rating: ${} )
+    console.log(`IMDB rating: ${movie.imdbRating}`)
+    console.log(`Rotten Tomatoes: ${rottenTomatoes.Value}`)
+    console.log(`Origin: ${movie.Country}`)
+    console.log(`Language: ${movie.Language}`)
+    console.log(`Plot: ${movie.Plot}`)
+    console.log(`Actors: ${movie.Actors}`)
   })
   .catch(function(error) {
     if (error.response) {
       
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      console.log(error.response.data)
+      console.log(error.response.status)
+      console.log(error.response.headers)
     } else if (error.request) {
-      console.log(error.request);
+      console.log(error.request)
     } else {
-      console.log("Error", error.message);
+      console.log("Error", error.message)
     }
-    console.log(error.config);
-  });
+    console.log(error.config)
+  })
+}
+
 
 
 
